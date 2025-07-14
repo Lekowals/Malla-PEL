@@ -1,0 +1,40 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+  background: #f9f9f9;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.semestre {
+  margin-bottom: 30px;
+}
+
+.semestre h2 {
+  color: #4c4cff;
+}
+
+.ramo {
+  padding: 10px;
+  margin: 6px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.ramo.aprobado {
+  background-color: #b3ffb3;
+  text-decoration: line-through;
+  color: #444;
+}
+
+.ramo:hover {
+  background-color: #e6e6ff;
+}
