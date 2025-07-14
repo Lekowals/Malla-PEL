@@ -1,40 +1,150 @@
+/* === Estilos Generales === */
 body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  max-width: 800px;
-  margin: auto;
-  background: #f9f9f9;
-}
-
-h1 {
-  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fefefb;
   color: #333;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.semestre {
-  margin-bottom: 30px;
+header {
+  padding: 1rem;
+  text-align: center;
+  background-color: #cfe8fc;
+  color: #222;
 }
 
-.semestre h2 {
-  color: #4c4cff;
+.controls {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
-.ramo {
-  padding: 10px;
-  margin: 6px 0;
-  border: 1px solid #ccc;
+#avance {
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  background-color: #fff3cd;
   border-radius: 6px;
-  background-color: #fff;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.ramo.aprobado {
-  background-color: #b3ffb3;
-  text-decoration: line-through;
   color: #444;
 }
 
+/* === Semestres en fila horizontal === */
+#malla.horizontal {
+  display: flex;
+  overflow-x: auto;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.semestre {
+  background-color: #f3f0ff;
+  border-radius: 12px;
+  padding: 1rem;
+  min-width: 220px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: background-color 0.3s;
+}
+
+.semestre h2 {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ramo {
+  background-color: #fdf2f8;
+  border: 1px solid #f0d1dd;
+  margin: 4px 0;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
 .ramo:hover {
-  background-color: #e6e6ff;
+  background-color: #ffe2ec;
+}
+
+.ramo.aprobado {
+  background-color: #d1ffd6;
+  text-decoration: line-through;
+  color: #666;
+}
+
+/* === Modo oscuro === */
+body.dark {
+  background-color: #1f1f1f;
+  color: #eee;
+}
+
+body.dark header {
+  background-color: #333;
+  color: #fff;
+}
+
+body.dark .semestre {
+  background-color: #2a2a2a;
+}
+
+body.dark .ramo {
+  background-color: #3d3d3d;
+  color: #ccc;
+  border-color: #555;
+}
+
+body.dark .ramo.aprobado {
+  background-color: #3c6848;
+  color: #aaa;
+}
+
+body.dark #avance {
+  background-color: #444;
+  color: #fff;
+}
+
+/* === Botón de modo oscuro === */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #6c63ff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
 }
