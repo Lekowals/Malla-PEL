@@ -3,22 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <title>Malla PEL - PUCV</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Malla Interactiva - Pedagogía en Lenguaje PUCV</h1>
-  <div id="malla">
-    <div class="semestre">
-      <h2>Semestre 1</h2>
-      <div class="ramo">Fundamentos del Lenguaje</div>
-      <div class="ramo">Literatura Clásica</div>
-      <div class="ramo">Estudios Literarios Iniciales</div>
-      <div class="ramo">Expresión y Comunicación</div>
-      <div class="ramo">Desarrollo y Aprendizaje de la Persona</div>
-      <div class="ramo">Fundamentos Pedagógicos y Filosóficos</div>
+  <header>
+    <h1>Malla Interactiva - Pedagogía en Lenguaje y Comunicación (PUCV)</h1>
+    <div class="controls">
+      <label class="switch">
+        <input type="checkbox" id="darkModeToggle">
+        <span class="slider"></span>
+      </label>
+      <span>Modo oscuro</span>
+      <div id="avance"></div>
     </div>
-    <!-- Puedes copiar esta estructura para los semestres siguientes -->
-  </div>
+  </header>
+  <main id="malla" class="horizontal">
+    <section class="semestre"><h2>SEMESTRE I</h2>
+      <div class="ramo">Taller de Comprensión Oral y Escrita</div>
+      <div class="ramo">Lenguaje, Cognición y Sociedad</div>
+      <div class="ramo">Introducción a los Estudios Gramaticales</div>
+      <div class="ramo">Introducción a los Estudios Literarios</div>
+      <div class="ramo">Literatura y Mundo Antiguo</div>
+      <div class="ramo">Antropología Cristiana</div>
+    </section>
+    <section class="semestre"><h2>SEMESTRE II</h2>
+      <div class="ramo">Taller de Producción Oral y Escrita</div>
+      <div class="ramo">Introducción al Estudio del Texto</div>
+      <div class="ramo">Gramática Descriptiva 1</div>
+      <div class="ramo">Introducción a la Didáctica de la Lengua y la Literatura</div>
+      <div class="ramo">Conformación de la Literatura y la Cultura Hispana</div>
+      <div class="ramo">Ética Cristiana</div>
+    </section>
+    <section class="semestre"><h2>SEMESTRE III</h2>
+      <div class="ramo">Gramática Descriptiva 2</div>
+      <div class="ramo">Teorías de la Comprensión del Discurso</div>
+      <div class="ramo">Literatura y Cultura Moderna</div>
+      <div class="ramo">Práctica Docente Inicial</div>
+      <div class="ramo">Educar en y para la Diversidad</div>
+      <div class="ramo">Taller de Aprendizaje y Desarrollo Adolescente</div>
+    </section>
+    <section class="semestre"><h2>SEMESTRE IV</h2>
+      <div class="ramo">Genealogías Poéticas</div>
+      <div class="ramo">Gramática del Texto</div>
+      <div class="ramo">Conformación de las Literaturas Hispanoamericanas</div>
+      <div class="ramo">Psicología Social Aplicada en la Escuela y su Comunidad</div>
+      <div class="ramo">Fundamentos Filosóficos y Sociales de la Educación</div>
+      <div class="ramo">Inglés 1</div>
+      <div class="ramo">Formación Fundamental 1</div>
+    </section>
+    <section class="semestre"><h2>SEMESTRE V</h2>
+      <div class="ramo">Géneros Discursivos</div>
+      <div class="ramo">Lexicología y Semántica</div>
+      <div class="ramo">Teorías de la Producción del Discurso</div>
+      <div class="ramo">Literatura, Sociedad e Ideología</div>
+      <div class="ramo">Didáctica de la Comunicación Escrita</div>
+      <div class="ramo">Inglés 2</div>
+    </section>
+    <section class="semestre"><h2>SEMESTRE VI</h2>
+      <div class="ramo">Literaturas Nacionales Hispanoamericanas</div>
+      <div class="ramo">Didáctica de la Comunicación Oral</div>
+      <div class="ramo">Teoría y Planificación Curricular</div>
+      <div class="ramo">Tecnologías Digitales para el Aprendizaje y el Desarrollo Profesional Docente</div>
+      <div class="ramo">Inglés 3</div>
+    </section>
+    <section class="semestre"><h2>SEMESTRE VII</h2>
+      <div class="ramo">Comunicación Multimedial</div>
+      <div class="ramo">Literaturas de las Vanguardias Hispanoamericanas</div>
+      <div class="ramo">Didáctica Integrada de la Lengua</div>
+      <div class="ramo">Práctica Docente Intermedia</div>
+      <div class="ramo">Evaluación del y para el Aprendizaje</div>
+      <div class="ramo">Inglés 4</div>
+    </section>
+    <section class="semestre"><h2>SEMESTRE VIII</h2>
+      <div class="ramo">Análisis del Discurso</div>
+      <div class="ramo">Literaturas y Estéticas Contemporáneas</div>
+      <div class="ramo">Literatura Hispanoamericana Contemporánea</div>
+      <div class="ramo">Identidad Profesional Docente</div>
+      <div class="ramo">Políticas Públicas Educativas y Gestión Escolar</div>
+      <div class="ramo">Formación Fundamental 2</div>
+      <div class="ramo">Optativo 1</div>
+    </section>
+    <section class="semestre"><h2>SEMESTRE IX</h2>
+      <div class="ramo">Temas de la Literatura Chilena</div>
+      <div class="ramo">Trabajo de Titulación</div>
+      <div class="ramo">Taller de Uso Estratégico de la Voz y del Espacio en Contextos Escolares</div>
+      <div class="ramo">Investigación Educativa y Pedagógica</div>
+      <div class="ramo">Formación Fundamental 3</div>
+      <div class="ramo">Optativo 2</div>
+    </section>
+    <section class="semestre"><h2>SEMESTRE X</h2>
+      <div class="ramo">Práctica Docente Final</div>
+    </section>
+  </main>
   <script src="script.js"></script>
 </body>
 </html>
