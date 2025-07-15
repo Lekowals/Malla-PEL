@@ -85,7 +85,17 @@ header {
   opacity: 0.6;
 }
 
-.ramo .tooltip {
+/* === Tooltip nuevo para ícono ℹ️ === */
+.ramo .info {
+  position: relative;
+  display: inline-block;
+  font-size: 0.9em;
+  margin-left: 6px;
+  color: #666;
+  cursor: help;
+}
+
+.ramo .info .tooltip {
   visibility: hidden;
   background-color: #333;
   color: #fff;
@@ -93,8 +103,8 @@ header {
   border-radius: 6px;
   padding: 4px 8px;
   position: absolute;
-  z-index: 1;
-  bottom: 100%;
+  z-index: 2;
+  bottom: 125%;
   left: 50%;
   transform: translateX(-50%);
   margin-bottom: 6px;
@@ -104,14 +114,7 @@ header {
   transition: opacity 0.3s;
 }
 
-.ramo .info {
-  font-size: 0.9em;
-  margin-left: 6px;
-  color: #666;
-  cursor: help;
-}
-
-.ramo.bloqueado:hover .tooltip {
+.ramo .info:hover .tooltip {
   visibility: visible;
   opacity: 1;
 }
@@ -200,4 +203,3 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(26px);
 }
-
