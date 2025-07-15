@@ -76,10 +76,16 @@ header {
 }
 
 .ramo.bloqueado {
-  background-color: #e0e0e0;
+  background-color: #eee;
   color: #999;
-  pointer-events: none;
+  border-style: dashed;
+  cursor: not-allowed;
   opacity: 0.6;
+  position: relative;
+}
+
+.ramo.bloqueado::before {
+  content: "🔒 ";
 }
 
 /* === Modo oscuro === */
@@ -106,12 +112,6 @@ body.dark .ramo {
 body.dark .ramo.aprobado {
   background-color: #3c6848;
   color: #aaa;
-}
-
-body.dark .ramo.bloqueado {
-  background-color: #555;
-  color: #aaa;
-  opacity: 0.5;
 }
 
 body.dark #avance {
