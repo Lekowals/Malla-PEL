@@ -61,9 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ramos.forEach(ramo => {
       const codigo = ramo.dataset.codigo;
 
-      // Eliminar tooltip anterior si lo hubiera
-      const infoExistente = ramo.querySelector('.info');
-      if (infoExistente) infoExistente.remove();
+      // Eliminar info anterior si existe
+      const anterior = ramo.querySelector('.info');
+      if (anterior) anterior.remove();
 
       if (!cumplePrerrequisitos(codigo)) {
         ramo.classList.add('bloqueado');
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (requisitos) {
           const info = document.createElement('span');
           info.className = 'info';
-          info.textContent = ' ℹ️';
+          info.innerHTML = 'ℹ️';
 
           const tooltip = document.createElement('span');
           tooltip.className = 'tooltip';
