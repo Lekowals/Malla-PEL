@@ -58,39 +58,38 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function actualizarDisponibilidad() {
-  ramos.forEach(ramo => {
-    const codigo = ramo.dataset.codigo;
+    ramos.forEach(ramo => {
+      const codigo = ramo.dataset.codigo;
 
-    // Eliminar tooltip anterior si lo hubiera
-    const infoExistente = ramo.querySelector('.info');
-    if (infoExistente) infoExistente.remove();
+      // Eliminar tooltip anterior si lo hubiera
+      const infoExistente = ramo.querySelector('.info');
+      if (infoExistente) infoExistente.remove();
 
-    if (!cumplePrerrequisitos(codigo)) {
-      ramo.classList.add('bloqueado');
-      ramo.style.pointerEvents = 'none';
-      ramo.style.opacity = '0.6';
+      if (!cumplePrerrequisitos(codigo)) {
+        ramo.classList.add('bloqueado');
+        ramo.style.pointerEvents = 'none';
+        ramo.style.opacity = '0.6';
 
-      const requisitos = prerrequisitos[codigo];
-      if (requisitos) {
-        const info = document.createElement('span');
-        info.className = 'info';
-        info.textContent = ' ℹ️';
+        const requisitos = prerrequisitos[codigo];
+        if (requisitos) {
+          const info = document.createElement('span');
+          info.className = 'info';
+          info.textContent = ' ℹ️';
 
-        const tooltip = document.createElement('span');
-        tooltip.className = 'tooltip';
-        tooltip.textContent = '🔒 Requiere: ' + requisitos.join(', ');
+          const tooltip = document.createElement('span');
+          tooltip.className = 'tooltip';
+          tooltip.textContent = '🔒 Requiere: ' + requisitos.join(', ');
 
-        info.appendChild(tooltip);
-        ramo.appendChild(info);
+          info.appendChild(tooltip);
+          ramo.appendChild(info);
+        }
+      } else {
+        ramo.classList.remove('bloqueado');
+        ramo.style.pointerEvents = 'auto';
+        ramo.style.opacity = '1';
       }
-    } else {
-      ramo.classList.remove('bloqueado');
-      ramo.style.pointerEvents = 'auto';
-      ramo.style.opacity = '1';
-    }
-  });
-}
-
+    });
+  }
 
   ramos.forEach((ramo, i) => {
     if (estados[i]) ramo.classList.add('aprobado');
