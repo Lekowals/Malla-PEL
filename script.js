@@ -1,15 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
   const ramos = document.querySelectorAll('.ramo');
-  const controls = document.querySelector('.controls');
   const avanceBox = document.getElementById('avance');
   const darkToggle = document.getElementById('darkModeToggle');
+  const controls = document.querySelector('.controls');
 
-  // Botón reiniciar
+  // Botón para reiniciar progreso
   const resetBtn = document.createElement('button');
   resetBtn.textContent = 'Reiniciar progreso';
-  resetBtn.style = 'margin-left:10px;padding:6px 12px;border:none;border-radius:6px;cursor:pointer;background:#ffdddd;color:#333;';
+  resetBtn.style.padding = '6px 12px';
+  resetBtn.style.borderRadius = '6px';
+  resetBtn.style.border = 'none';
+  resetBtn.style.cursor = 'pointer';
+  resetBtn.style.backgroundColor = '#ffdddd';
+  resetBtn.style.color = '#333';
   resetBtn.addEventListener('click', () => {
-    if (confirm('¿Reiniciar todo tu progreso?')) {
+    if (confirm('¿Estás seguro de que quieres reiniciar tu progreso?')) {
       localStorage.removeItem('estadoRamos');
       ramos.forEach(r => r.classList.remove('aprobado'));
       guardarEstado();
@@ -17,73 +22,100 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   controls.appendChild(resetBtn);
 
-  const estados = JSON.parse(localStorage.getItem('estadoRamos') || '{}');
+  // Estados almacenados
+  const estados = JSON.parse(localStorage.getItem('estadoRamos') || '[]');
   const darkMode = localStorage.getItem('modoOscuro') === 'true';
 
-  const prerrequisitos = { /* tu objeto existente de claves-prerrequisitos */ };
+  // Lista de prerrequisitos
+  const prerrequisitos = {
+    "LCL213": ["LCL136"], "LCL232": ["LCL213"], "PRA101-74": ["LCL180"], "EPE1118": ["PRA101-74"],
+    "LCL230": ["LCL137"], "LCL246": ["LCL170"], "LCL313": ["LCL232"], "PSI275": ["PSI331"],
+    "ING9002": ["ING9001"], "LCL274": ["LCL230"], "LCL302": ["LCL235"], "LCL339": ["LCL219"],
+    "LCL680": ["LCL235"], "ING9003": ["ING9002"], "LCL236": ["LCL246"], "LCL262": ["LCL230"],
+    "LCL337": ["LCL235"], "EPE1302": ["EPE1303"], "ING9004": ["ING9003"], "LCL615": ["LCL680"],
+    "LCL624": ["LCL339"], "PRA301-74": ["PRA101-74", "EPE1303", "PSI331", "LCL680"],
+    "EPE1130": ["PRA301-74"], "LCL548": ["LCL339"], "EPE1342": ["PRA301-74"],
+    "LCL651": ["LCL337", "PRA301-74", "LCL680", "LCL262"],
+    "PRA601-74": ["LCL548", "LCL651", "LCL301", "PRA301-74", "EPE1302", "EPE1320", "EPE1342", "EPE1132"]
+  };
 
   const ramoPorCodigo = {};
   ramos.forEach(r => {
-    const c = r.dataset.codigo;
-    if (c) ramoPorCodigo[c] = r;
+    const codigo = r.dataset.codigo;
+    if (codigo) ramoPorCodigo[codigo] = r;
   });
 
   function estaAprobado(codigo) {
-    const r = ramoPorCodigo[codigo];
-    return r && r.classList.contains('aprobado');
+    const ramo = ramoPorCodigo[codigo];
+    return ramo && ramo.classList.contains('aprobado');
   }
 
-  function cumplePrerre(codigo) {
-    return !(prerrequisitos[codigo] || []).some(req => !estaAprobado(req));
+  function cumplePrerrequisitos(codigo) {
+    if (!prerrequisitos[codigo]) return true;
+    return prerrequisitos[codigo].every(c => estaAprobado(c));
   }
 
   function actualizarDisponibilidad() {
-    ramos.forEach(r => {
-      const code = r.dataset.codigo;
-      if (!cumplePrerre(code)) {
-        r.classList.add('bloqueado');
-        r.style.pointerEvents = 'none';
-        r.title = '🔒 Requiere: ' + (prerrequisitos[code] || []).join(', ');
+    ramos.forEach(ramo => {
+      const codigo = ramo.dataset.codigo;
+      if (!codigo) return;
+      const requisitos = prerrequisitos[codigo];
+
+      if (!cumplePrerrequisitos(codigo)) {
+        ramo.classList.add('bloqueado');
+        ramo.style.pointerEvents = 'none';
+        ramo.style.opacity = '0.6';
+        if (requisitos) {
+          const nombres = requisitos.map(c => {
+            const r = ramoPorCodigo[c];
+            return r ? r.textContent : c;
+          });
+          ramo.title = '🔒 Requiere: ' + nombres.join(', ');
+        }
       } else {
-        r.classList.remove('bloqueado');
-        r.style.pointerEvents = 'auto';
-        r.title = '';
+        ramo.classList.remove('bloqueado');
+        ramo.style.pointerEvents = 'auto';
+        ramo.style.opacity = '1';
+        ramo.title = '';
       }
     });
   }
 
-  ramos.forEach(r => {
-    if (estados[r.dataset.codigo]) r.classList.add('aprobado');
-    r.addEventListener('click', () => {
-      if (r.classList.contains('bloqueado')) return;
-      r.classList.toggle('aprobado');
-      guardarEstado();
+  // Cargar estados
+  ramos.forEach((ramo, i) => {
+    if (estados[i]) ramo.classList.add('aprobado');
+    ramo.addEventListener('click', () => {
+      if (!ramo.classList.contains('bloqueado')) {
+        ramo.classList.toggle('aprobado');
+        guardarEstado();
+      }
     });
   });
 
   function guardarEstado() {
-    const nuevo = {};
-    ramos.forEach(r => {
-      nuevo[r.dataset.codigo] = r.classList.contains('aprobado');
-    });
-    localStorage.setItem('estadoRamos', JSON.stringify(nuevo));
+    const nuevos = Array.from(ramos).map(r => r.classList.contains('aprobado'));
+    localStorage.setItem('estadoRamos', JSON.stringify(nuevos));
     calcularAvance();
     actualizarDisponibilidad();
   }
 
   function calcularAvance() {
     const total = ramos.length;
-    const aprob = document.querySelectorAll('.ramo.aprobado').length;
-    avanceBox.textContent = `Avance: ${Math.round((aprob/total)*100)}%`;
+    const completados = document.querySelectorAll('.ramo.aprobado').length;
+    const porcentaje = Math.round((completados / total) * 100);
+    avanceBox.textContent = `Avance: ${porcentaje}%`;
   }
 
+  // Modo oscuro
   darkToggle.checked = darkMode;
   document.body.classList.toggle('dark', darkMode);
   darkToggle.addEventListener('change', () => {
-    document.body.classList.toggle('dark', darkToggle.checked);
-    localStorage.setItem('modoOscuro', darkToggle.checked);
+    const modo = darkToggle.checked;
+    document.body.classList.toggle('dark', modo);
+    localStorage.setItem('modoOscuro', modo);
   });
 
   calcularAvance();
   actualizarDisponibilidad();
 });
+
