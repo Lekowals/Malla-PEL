@@ -21,6 +21,7 @@ header {
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 #avance {
@@ -63,6 +64,7 @@ header {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s, color 0.2s;
+  position: relative;
 }
 
 .ramo:hover {
@@ -76,16 +78,42 @@ header {
 }
 
 .ramo.bloqueado {
-  background-color: #eee;
-  color: #999;
-  border-style: dashed;
-  cursor: not-allowed;
+  cursor: default;
+  background-color: #f3f3f3;
+  color: #aaa;
+  border: 1px dashed #bbb;
   opacity: 0.6;
-  position: relative;
 }
 
-.ramo.bloqueado::before {
-  content: "🔒 ";
+.ramo .tooltip {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 4px 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 6px;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.ramo .info {
+  font-size: 0.9em;
+  margin-left: 6px;
+  color: #666;
+  cursor: help;
+}
+
+.ramo.bloqueado:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 
 /* === Modo oscuro === */
@@ -117,6 +145,17 @@ body.dark .ramo.aprobado {
 body.dark #avance {
   background-color: #444;
   color: #fff;
+}
+
+body.dark .ramo.bloqueado {
+  background-color: #444;
+  color: #777;
+  border: 1px dashed #666;
+}
+
+body.dark .ramo .tooltip {
+  background-color: #eee;
+  color: #222;
 }
 
 /* === Botón de modo oscuro === */
