@@ -1,10 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const ramos = document.querySelectorAll('.ramo');
-  const avanceBox = document.getElementById('avance');
-  const darkToggle = document.getElementById('darkModeToggle');
   const controls = document.querySelector('.controls');
-
-  // Botón para reiniciar progreso
   const resetBtn = document.createElement('button');
   resetBtn.textContent = 'Reiniciar progreso';
   resetBtn.style.padding = '6px 12px';
@@ -13,28 +8,41 @@ document.addEventListener('DOMContentLoaded', () => {
   resetBtn.style.cursor = 'pointer';
   resetBtn.style.backgroundColor = '#ffdddd';
   resetBtn.style.color = '#333';
-  resetBtn.addEventListener('click', () => {
-    if (confirm('¿Estás seguro de que quieres reiniciar tu progreso?')) {
-      localStorage.removeItem('estadoRamos');
-      ramos.forEach(r => r.classList.remove('aprobado'));
-      guardarEstado();
-    }
-  });
   controls.appendChild(resetBtn);
 
-  // Estados almacenados
+  const ramos = document.querySelectorAll('.ramo');
+  const avanceBox = document.getElementById('avance');
+  const darkToggle = document.getElementById('darkModeToggle');
+
   const estados = JSON.parse(localStorage.getItem('estadoRamos') || '[]');
   const darkMode = localStorage.getItem('modoOscuro') === 'true';
 
-  // Lista de prerrequisitos
   const prerrequisitos = {
-    "LCL213": ["LCL136"], "LCL232": ["LCL213"], "PRA101-74": ["LCL180"], "EPE1118": ["PRA101-74"],
-    "LCL230": ["LCL137"], "LCL246": ["LCL170"], "LCL313": ["LCL232"], "PSI275": ["PSI331"],
-    "ING9002": ["ING9001"], "LCL274": ["LCL230"], "LCL302": ["LCL235"], "LCL339": ["LCL219"],
-    "LCL680": ["LCL235"], "ING9003": ["ING9002"], "LCL236": ["LCL246"], "LCL262": ["LCL230"],
-    "LCL337": ["LCL235"], "EPE1302": ["EPE1303"], "ING9004": ["ING9003"], "LCL615": ["LCL680"],
-    "LCL624": ["LCL339"], "PRA301-74": ["PRA101-74", "EPE1303", "PSI331", "LCL680"],
-    "EPE1130": ["PRA301-74"], "LCL548": ["LCL339"], "EPE1342": ["PRA301-74"],
+    "LCL213": ["LCL136"],
+    "LCL232": ["LCL213"],
+    "PRA101-74": ["LCL180"],
+    "EPE1118": ["PRA101-74"],
+    "LCL230": ["LCL137"],
+    "LCL246": ["LCL170"],
+    "LCL313": ["LCL232"],
+    "PSI275": ["PSI331"],
+    "ING9002": ["ING9001"],
+    "LCL274": ["LCL230"],
+    "LCL302": ["LCL235"],
+    "LCL339": ["LCL219"],
+    "LCL680": ["LCL235"],
+    "ING9003": ["ING9002"],
+    "LCL236": ["LCL246"],
+    "LCL262": ["LCL230"],
+    "LCL337": ["LCL235"],
+    "EPE1302": ["EPE1303"],
+    "ING9004": ["ING9003"],
+    "LCL615": ["LCL680"],
+    "LCL624": ["LCL339"],
+    "PRA301-74": ["PRA101-74", "EPE1303", "PSI331", "LCL680"],
+    "EPE1130": ["PRA301-74"],
+    "LCL548": ["LCL339"],
+    "EPE1342": ["PRA301-74"],
     "LCL651": ["LCL337", "PRA301-74", "LCL680", "LCL262"],
     "PRA601-74": ["LCL548", "LCL651", "LCL301", "PRA301-74", "EPE1302", "EPE1320", "EPE1342", "EPE1132"]
   };
@@ -42,7 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const ramoPorCodigo = {};
   ramos.forEach(r => {
     const codigo = r.dataset.codigo;
-    if (codigo) ramoPorCodigo[codigo] = r;
+    if (codigo) {
+      ramoPorCodigo[codigo] = r;
+    }
   });
 
   function estaAprobado(codigo) {
@@ -58,30 +68,26 @@ document.addEventListener('DOMContentLoaded', () => {
   function actualizarDisponibilidad() {
     ramos.forEach(ramo => {
       const codigo = ramo.dataset.codigo;
-      if (!codigo) return;
       const requisitos = prerrequisitos[codigo];
-
       if (!cumplePrerrequisitos(codigo)) {
         ramo.classList.add('bloqueado');
         ramo.style.pointerEvents = 'none';
-        ramo.style.opacity = '0.6';
+        ramo.style.opacity = '0.5';
         if (requisitos) {
-          const nombres = requisitos.map(c => {
-            const r = ramoPorCodigo[c];
-            return r ? r.textContent : c;
-          });
-          ramo.title = '🔒 Requiere: ' + nombres.join(', ');
+          const nombres = requisitos
+            .map(cod => ramoPorCodigo[cod]?.textContent?.trim() || cod)
+            .join(', ');
+          ramo.title = `🔒 Debes aprobar: ${nombres}`;
         }
       } else {
         ramo.classList.remove('bloqueado');
         ramo.style.pointerEvents = 'auto';
         ramo.style.opacity = '1';
-        ramo.title = '';
+        ramo.removeAttribute('title');
       }
     });
   }
 
-  // Cargar estados
   ramos.forEach((ramo, i) => {
     if (estados[i]) ramo.classList.add('aprobado');
     ramo.addEventListener('click', () => {
@@ -106,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
     avanceBox.textContent = `Avance: ${porcentaje}%`;
   }
 
-  // Modo oscuro
   darkToggle.checked = darkMode;
   document.body.classList.toggle('dark', darkMode);
   darkToggle.addEventListener('change', () => {
@@ -115,7 +120,16 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('modoOscuro', modo);
   });
 
+  resetBtn.addEventListener('click', () => {
+    if (confirm('¿Estás seguro de que quieres reiniciar tu progreso?')) {
+      localStorage.removeItem('estadoRamos');
+      ramos.forEach(r => r.classList.remove('aprobado'));
+      guardarEstado();
+    }
+  });
+
   calcularAvance();
   actualizarDisponibilidad();
 });
+
 
