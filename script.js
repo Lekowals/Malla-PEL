@@ -1,4 +1,22 @@
-document.addEventListener('DOMContentLoaded', () => {
+ocument.addEventListener('DOMContentLoaded', () => {
+  // Insertar botón de reinicio al cargar
+  const controls = document.querySelector('.controls');
+  const resetBtn = document.createElement('button');
+  resetBtn.textContent = 'Reiniciar progreso';
+  resetBtn.style.padding = '6px 12px';
+  resetBtn.style.borderRadius = '6px';
+  resetBtn.style.border = 'none';
+  resetBtn.style.cursor = 'pointer';
+  resetBtn.style.backgroundColor = '#ffdddd';
+  resetBtn.style.color = '#333';
+  resetBtn.addEventListener('click', () => {
+    if (confirm('¿Estás seguro de que quieres reiniciar tu progreso?')) {
+      localStorage.removeItem('estadoRamos');
+      ramos.forEach(r => r.classList.remove('aprobado'));
+      guardarEstado();
+    }
+  });
+  controls.appendChild(resetBtn);
   const ramos = document.querySelectorAll('.ramo');
   const avanceBox = document.getElementById('avance');
   const darkToggle = document.getElementById('darkModeToggle');
@@ -31,6 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ramo.classList.add('bloqueado');
         ramo.style.pointerEvents = 'none';
         ramo.style.opacity = '0.5';
+        const requisitos = prerrequisitos[codigo];
+        if (requisitos) {
+          ramo.title = '🔒 Requiere: ' + requisitos.join(', ');
+        }
       } else {
         ramo.classList.remove('bloqueado');
         ramo.style.pointerEvents = 'auto';
