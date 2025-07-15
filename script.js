@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Insertar botón de reinicio al cargar
+  const ramos = document.querySelectorAll('.ramo');
   const controls = document.querySelector('.controls');
   const resetBtn = document.createElement('button');
   resetBtn.textContent = 'Reiniciar progreso';
@@ -17,14 +17,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   controls.appendChild(resetBtn);
-  const ramos = document.querySelectorAll('.ramo');
+
   const avanceBox = document.getElementById('avance');
   const darkToggle = document.getElementById('darkModeToggle');
 
   const estados = JSON.parse(localStorage.getItem('estadoRamos') || '[]');
   const darkMode = localStorage.getItem('modoOscuro') === 'true';
 
-  const prerrequisitos = {"LCL213": ["LCL136"], "LCL232": ["LCL213"], "PRA101-74": ["LCL180"], "EPE1118": ["PRA101-74"], "LCL230": ["LCL137"], "LCL246": ["LCL170"], "LCL313": ["LCL232"], "PSI275": ["PSI331"], "ING9002": ["ING9001"], "LCL274": ["LCL230"], "LCL302": ["LCL235"], "LCL339": ["LCL219"], "LCL680": ["LCL235"], "ING9003": ["ING9002"], "LCL236": ["LCL246"], "LCL262": ["LCL230"], "LCL337": ["LCL235"], "EPE1302": ["EPE1303"], "ING9004": ["ING9003"], "LCL615": ["LCL680"], "LCL624": ["LCL339"], "PRA301-74": ["PRA101-74", "EPE1303", "PSI331", "LCL680"], "EPE1130": ["PRA301-74"], "LCL548": ["LCL339"], "EPE1342": ["PRA301-74"], "LCL651": ["LCL337", "PRA301-74", "LCL680", "LCL262"], "PRA601-74": ["LCL548", "LCL651", "LCL301", "PRA301-74", "EPE1302", "EPE1320", "EPE1342", "EPE1132"]};
+  const prerrequisitos = {
+    "LCL213": ["LCL136"], "LCL232": ["LCL213"], "PRA101-74": ["LCL180"],
+    "EPE1118": ["PRA101-74"], "LCL230": ["LCL137"], "LCL246": ["LCL170"],
+    "LCL313": ["LCL232"], "PSI275": ["PSI331"], "ING9002": ["ING9001"],
+    "LCL274": ["LCL230"], "LCL302": ["LCL235"], "LCL339": ["LCL219"],
+    "LCL680": ["LCL235"], "ING9003": ["ING9002"], "LCL236": ["LCL246"],
+    "LCL262": ["LCL230"], "LCL337": ["LCL235"], "EPE1302": ["EPE1303"],
+    "ING9004": ["ING9003"], "LCL615": ["LCL680"], "LCL624": ["LCL339"],
+    "PRA301-74": ["PRA101-74", "EPE1303", "PSI331", "LCL680"],
+    "EPE1130": ["PRA301-74"], "LCL548": ["LCL339"], "EPE1342": ["PRA301-74"],
+    "LCL651": ["LCL337", "PRA301-74", "LCL680", "LCL262"],
+    "PRA601-74": ["LCL548", "LCL651", "LCL301", "PRA301-74", "EPE1302", "EPE1320", "EPE1342", "EPE1132"]
+  };
 
   const ramoPorCodigo = {};
   ramos.forEach(r => {
@@ -57,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ramo.classList.remove('bloqueado');
         ramo.style.pointerEvents = 'auto';
         ramo.style.opacity = '1';
+        ramo.title = '';
       }
     });
   }
