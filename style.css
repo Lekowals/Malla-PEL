@@ -75,6 +75,13 @@ header {
   color: #666;
 }
 
+.ramo.bloqueado {
+  background-color: #e0e0e0;
+  color: #999;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
 /* === Modo oscuro === */
 body.dark {
   background-color: #1f1f1f;
@@ -99,6 +106,12 @@ body.dark .ramo {
 body.dark .ramo.aprobado {
   background-color: #3c6848;
   color: #aaa;
+}
+
+body.dark .ramo.bloqueado {
+  background-color: #555;
+  color: #aaa;
+  opacity: 0.5;
 }
 
 body.dark #avance {
@@ -148,3 +161,4 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(26px);
 }
+
