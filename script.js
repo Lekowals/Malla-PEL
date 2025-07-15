@@ -58,31 +58,39 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function actualizarDisponibilidad() {
-    ramos.forEach(ramo => {
-      const codigo = ramo.dataset.codigo;
-      if (!codigo) return;
+  ramos.forEach(ramo => {
+    const codigo = ramo.dataset.codigo;
 
-      if (!cumplePrerrequisitos(codigo)) {
-        ramo.classList.add('bloqueado');
-        ramo.style.pointerEvents = 'none';
-        ramo.style.opacity = '0.5';
+    // Eliminar tooltip anterior si lo hubiera
+    const infoExistente = ramo.querySelector('.info');
+    if (infoExistente) infoExistente.remove();
 
-        const requisitos = prerrequisitos[codigo] || [];
-        const nombreOriginal = ramo.dataset.nombre || ramo.textContent.replace(/^🔒 /, '');
-        ramo.dataset.nombre = nombreOriginal; // Guardar nombre sin íconos
+    if (!cumplePrerrequisitos(codigo)) {
+      ramo.classList.add('bloqueado');
+      ramo.style.pointerEvents = 'none';
+      ramo.style.opacity = '0.6';
 
-        const requisitosTexto = requisitos.join(', ');
-        ramo.innerHTML = `🔒 ${nombreOriginal}<span class="info" title="Requiere: ${requisitosTexto}"> ℹ️</span>`;
-      } else {
-        if (ramo.dataset.nombre) {
-          ramo.innerHTML = ramo.dataset.nombre;
-        }
-        ramo.classList.remove('bloqueado');
-        ramo.style.pointerEvents = 'auto';
-        ramo.style.opacity = '1';
+      const requisitos = prerrequisitos[codigo];
+      if (requisitos) {
+        const info = document.createElement('span');
+        info.className = 'info';
+        info.textContent = ' ℹ️';
+
+        const tooltip = document.createElement('span');
+        tooltip.className = 'tooltip';
+        tooltip.textContent = '🔒 Requiere: ' + requisitos.join(', ');
+
+        info.appendChild(tooltip);
+        ramo.appendChild(info);
       }
-    });
-  }
+    } else {
+      ramo.classList.remove('bloqueado');
+      ramo.style.pointerEvents = 'auto';
+      ramo.style.opacity = '1';
+    }
+  });
+}
+
 
   ramos.forEach((ramo, i) => {
     if (estados[i]) ramo.classList.add('aprobado');
