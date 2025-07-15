@@ -1,24 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const controls = document.querySelector('.controls');
 
-  // Botón de reinicio
-  const resetBtn = document.createElement('button');
-  resetBtn.textContent = 'Reiniciar progreso';
-  resetBtn.style.padding = '6px 12px';
-  resetBtn.style.borderRadius = '6px';
-  resetBtn.style.border = 'none';
-  resetBtn.style.cursor = 'pointer';
-  resetBtn.style.backgroundColor = '#ffdddd';
-  resetBtn.style.color = '#333';
-  resetBtn.addEventListener('click', () => {
-    if (confirm('¿Estás seguro de que quieres reiniciar tu progreso?')) {
-      localStorage.removeItem('estadoRamos');
-      ramos.forEach(r => r.classList.remove('aprobado'));
-      guardarEstado();
-    }
-  });
-  controls.appendChild(resetBtn);
-
   const ramos = document.querySelectorAll('.ramo');
   const avanceBox = document.getElementById('avance');
   const darkToggle = document.getElementById('darkModeToggle');
@@ -60,33 +42,27 @@ document.addEventListener('DOMContentLoaded', () => {
   function actualizarDisponibilidad() {
     ramos.forEach(ramo => {
       const codigo = ramo.dataset.codigo;
-
-      // Eliminar info anterior si existe
-      const anterior = ramo.querySelector('.info');
-      if (anterior) anterior.remove();
+      const infoExistente = ramo.querySelector('.info');
+      if (infoExistente) infoExistente.remove();
 
       if (!cumplePrerrequisitos(codigo)) {
         ramo.classList.add('bloqueado');
-        ramo.style.pointerEvents = 'none';
-        ramo.style.opacity = '0.6';
 
         const requisitos = prerrequisitos[codigo];
         if (requisitos) {
           const info = document.createElement('span');
           info.className = 'info';
-          info.innerHTML = 'ℹ️';
+          info.textContent = ' 🔒 ℹ️';
 
           const tooltip = document.createElement('span');
           tooltip.className = 'tooltip';
-          tooltip.textContent = '🔒 Requiere: ' + requisitos.join(', ');
+          tooltip.textContent = 'Requiere: ' + requisitos.join(', ');
 
           info.appendChild(tooltip);
           ramo.appendChild(info);
         }
       } else {
         ramo.classList.remove('bloqueado');
-        ramo.style.pointerEvents = 'auto';
-        ramo.style.opacity = '1';
       }
     });
   }
@@ -113,6 +89,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const porcentaje = Math.round((completados / total) * 100);
     avanceBox.textContent = `Avance: ${porcentaje}%`;
   }
+
+  // Botón de reinicio
+  const resetBtn = document.createElement('button');
+  resetBtn.textContent = 'Reiniciar progreso';
+  resetBtn.style.padding = '6px 12px';
+  resetBtn.style.borderRadius = '6px';
+  resetBtn.style.border = 'none';
+  resetBtn.style.cursor = 'pointer';
+  resetBtn.style.backgroundColor = '#ffdddd';
+  resetBtn.style.color = '#333';
+  resetBtn.addEventListener('click', () => {
+    if (confirm('¿Estás seguro de que quieres reiniciar tu progreso?')) {
+      localStorage.removeItem('estadoRamos');
+      location.reload();
+    }
+  });
+  controls.appendChild(resetBtn);
 
   // Modo oscuro
   darkToggle.checked = darkMode;
