@@ -1,4 +1,5 @@
-ocument.addEventListener('DOMContentLoaded', () => {
+
+document.addEventListener('DOMContentLoaded', () => {
   // Insertar botón de reinicio al cargar
   const controls = document.querySelector('.controls');
   const resetBtn = document.createElement('button');
